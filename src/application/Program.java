@@ -12,7 +12,7 @@ public class Program {
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		System.out.print("Room number: ");
@@ -38,18 +38,12 @@ public class Program {
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkout = LocalDate.parse(sc.next(), fmt);
 			
-			LocalDate now = LocalDate.now();
-			if(checkin.isBefore(now) || checkout.isBefore(now)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
+			String error = reserv.updateDate(checkin, checkout);
+			if(error != null) {
+				System.out.println(error);
 			}else {
-				if(!checkout.isAfter(checkin)) {
-					System.out.println("Error in reservation: Check-out date must be after check-in date");
-				}else {
-					reserv.updateDate(checkin, checkout);
-					System.out.println(reserv.toString());
-				}
+				System.out.println(reserv.toString());
 			}
-			
 		}
 		
 		sc.close();
